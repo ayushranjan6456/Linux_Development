@@ -12,26 +12,26 @@
 
 int main()
 {
-        int fd;
-        int32_t val, num;
+	int fd;
+	int32_t val, num;
 
-        printf("----Demo of Character Device Driver----\n");
+	printf("----Demo of Character Device Driver----\n");
 
-        fd = open(DEVICE_PATH, O_RDWR);
-        if(fd < 0){
-                printf("Cannot Open Devcice file \n");
-                return 1;
-        }
+	fd = open(DEVICE_PATH, O_RDWR);
+	if(fd < 0){
+		printf("Cannot Open Devcice file \n");
+		return 1;
+	}
 
-        printf("Enter the data to send \n");
-        scanf("%d", &num);
-        ioctl(fd, WR_DATA, (int32_t*)&num);
-        printf("Wrote data from driver\n");
+	printf("Enter the data to send \n");
+	scanf("%d", &num);
+	ioctl(fd, WR_DATA, (int32_t*)&num);
+	printf("Wrote data from driver\n");
 
-        printf("Reading data from driver\n");
-        ioctl(fd, RD_DATA, (int32_t*)&val);
-        printf("Data: %d\n", val);
-        printf("Closing...\n");
+	printf("Reading data from driver\n");
+	ioctl(fd, RD_DATA, (int32_t*)&val);
+	printf("Data: %d\n", val);
+	printf("Closing...\n");
 
-        close(fd);
+	close(fd);
 }
