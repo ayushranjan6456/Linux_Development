@@ -6,13 +6,13 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Ayush Ranjan");
 MODULE_DESCRIPTION("A simple dynamically loadable kernel module");
 
-static ssize_t ayush_read(struct file *file,
-                            char __user *buf,
+static ssize_t ayush_read(struct file *file, 
+                            char __user *buf, 
                             size_t count,
                             loff_t *offset);
-
+                            
 static ssize_t ayush_write(struct file *file,
-                            const char __user *buf,
+                            const char __user *buf, 
                             size_t count,
                             loff_t *offset);
 
@@ -29,8 +29,8 @@ static char *kernel_buffer;
 static ssize_t buffer_size = 0;
 #define BUFFER_SIZE 1024
 
-static ssize_t ayush_read(struct file *file_pointer,
-                            char __user *user_space_buffer,
+static ssize_t ayush_read(struct file *file_pointer, 
+                            char __user *user_space_buffer, 
                             size_t count,
                             loff_t *offset){
     if(*offset >= buffer_size){
@@ -58,13 +58,13 @@ static ssize_t ayush_read(struct file *file_pointer,
     return bytes_to_copy;
 }
 
-static ssize_t ayush_write(struct file *file_pointer,
-                            const char __user *user_space_buffer,
+static ssize_t ayush_write(struct file *file_pointer, 
+                            const char __user *user_space_buffer, 
                             size_t count,
                             loff_t *offset){
 
     if(buffer_size + count > BUFFER_SIZE - 1)
-         count = BUFFER_SIZE - buffer_size - 1; //Limit only till 1024 characters to prevent overflow
+         count = BUFFER_SIZE - buffer_size - 1; //Limit only till 1024 characters to prevent overflow 
 
     if(count<0)
         return -ENOSPC;
@@ -90,9 +90,9 @@ static ssize_t ayush_write(struct file *file_pointer,
 
 static int ayush_module_init(void){
     printk("Hello there from new module init section\n");
-    /* struct proc_dir_entry *proc_create(const char *name,
-                                        umode_t mode,
-                                        struct proc_dir_entry *parent,
+    /* struct proc_dir_entry *proc_create(const char *name, 
+                                        umode_t mode, 
+                                        struct proc_dir_entry *parent, 
                                         const struct proc_ops *proc_ops); */
 
     kernel_buffer = kmalloc(BUFFER_SIZE, GFP_KERNEL);
@@ -104,9 +104,9 @@ static int ayush_module_init(void){
     strcpy(kernel_buffer, "Hello From Kernel Module\n");
     buffer_size = strlen(kernel_buffer);
 
-    custom_proc_entry = proc_create("ayush_module",
+    custom_proc_entry = proc_create("ayush_module", 
                                         0666,
-                                        NULL,
+                                        NULL, 
                                         &driver_proc_ops);
 
     if(custom_proc_entry == NULL){
@@ -129,3 +129,4 @@ static void ayush_module_exit(void){
 
 module_init(ayush_module_init);
 module_exit(ayush_module_exit);
+
