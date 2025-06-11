@@ -80,7 +80,7 @@ static ssize_t my_write(struct file *file_pointer, const char __user *user_space
     // Current simple write: append/overwrite from start if offset is 0.
     // For character devices, usually, writes don't use offset extensively for simple buffers.
     // We'll treat this as appending for now, or overwriting if total size exceeds BUFFER_SIZE
-
+    
     if (count == 0) return 0;
 
     // Limit incoming data to avoid overflow, leave space for null terminator
